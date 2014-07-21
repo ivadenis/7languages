@@ -8,6 +8,12 @@ class Tree
     block.call(self)  # self is implicit parameter ("this" in C++/Java)
     children.each { |c| c.visit(&block) }
   end
+  def sum()
+    sum = 0
+    p("sum")
+    children.each { |c| sum += c.sum() }
+    return sum + name
+  end
 end
 t = Tree.new(84, [
     Tree.new(7, []), 
@@ -18,6 +24,7 @@ t = Tree.new(84, [
       ])
     ])
 
-sum = 0
-t.visit { |n| sum += n.name }
-p(sum)
+# sum = 0
+# t.visit { |n| sum += n.name }
+# p(sum)
+p(t.sum())
