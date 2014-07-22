@@ -16,5 +16,5 @@ def map(arr)
   end
   return r
 end
-map([1,2,3]) { |x| x * x }
-map([4,5,6]) { |y| y + 1 }
+p(map([1,2,3]) { |x| x * x })
+p(map([4,5,6]) { |y| y + 1 })
