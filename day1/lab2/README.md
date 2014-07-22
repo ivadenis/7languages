@@ -38,3 +38,25 @@ Hint: Just print out the method name in method_missing.
 
 You don't have to implement this—just tell me what will work.
 
+
+# Step 3 - Building Classes
+
+1. Start a new irb session
+2. Write a function `make_class(name, fields)` that, given a list of fields, makes a subclass of Base (from the slide “Creating New Methods“). For example,
+```make_class("City", ["name", "country"]) // Makes City class
+c = City.new("Yverdon", "Switzerland")```
+3. Complete
+```class CSVBase < Base
+  def self.inherited(klass)
+    # Read first row of CSV file and add fields to klass
+  end
+end```
+To test it, make a file City.csv and run
+
+```class City < CSVBase
+end
+c = City.new("Berlin", "Germany")```
+4. Add an `inspect` method to the class made by Base#make_class that yields a string of the form `Classname,field1=value1,field2=value2,....` Example:
+`City,name=Ho Chi Minh City,country=Vietnam`
+
+

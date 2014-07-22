@@ -3,6 +3,7 @@ data = File.new(filename)
 header = data.gets.chomp
 fields = header.split(",")
 p fields
+
 data.each { |line| 
   p line.chomp.split(",")
 }

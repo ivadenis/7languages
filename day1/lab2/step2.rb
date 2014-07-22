@@ -1,4 +1,5 @@
 class CSVRecord
+
   attr_accessor :fields, :values
 
   def initialize(filename, i)
@@ -33,5 +34,6 @@ class CSVRecord
 end
 
 r = CSVRecord.new("City", 2)
-r.country
-r.name
+p(r.country)
+p(r.name)
+p(r.name = "Laussane")
