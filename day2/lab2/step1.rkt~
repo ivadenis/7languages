@@ -1,0 +1,15 @@
+#lang racket
+(define-syntax swap!
+    (syntax-rules () ; No keywords—we'll see those later
+        (
+          (swap! a b) ; Match this pattern
+          (letrec ((c a)) ; Replace with this code
+            (set! a b)
+            (set! b c))
+        )
+        ; Other (pattern, code) pairs can come here, e.g. (swap! a b c)
+))
+
+(define u 1)
+(define v 2)
+(swap! u v) ; Now u is 2, v is 1
