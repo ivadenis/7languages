@@ -1,0 +1,82 @@
+STEP 0)
+
+	5)
+	
+		:t "Bonjour" gives a list of char [char]
+		
+	6)
+	
+		:t head gives [a] -> a. That is a value from a list pointing to a value of type "a".
+		
+	7)
+	
+		:t (:) gives a -> [a] -> [a].
+		This is a function that takes one element of type "a" and a list of elements of type "a" and returns 
+		a list of elements of type "a". (This is currying).
+		
+	8)
+	
+		rrange 0 = [0]
+		rrange n = n : rrange(n-1)
+		
+STEP 1)
+
+	1)
+	
+		We get an Int.
+		
+	2)
+		
+		We get an Int.
+		
+	3) 	
+		
+		We should get an other Int, which is correct. We get 5.
+STEP 3)
+    1) 
+        an ampty list
+
+    2)
+        we never add element to the list
+
+        correct code
+        rev [] = []
+        rev (x:xs) = rev xs:x
+
+
+///////////
+// LAB 2 //
+///////////
+
+STEP 1 )
+    
+    1)
+runme = do 
+        putStrLn "Insert a positive nomber"
+        x <- getLine
+        y <- return (read x :: Int) 
+        if y > 0
+        then 
+            print (y)
+        else
+            runme
+2)
+factorial n = if n == 0 then 1 else n * factorial (n - 1)
+runme = do 
+        putStrLn "Insert a positive nomber"
+        x <- getLine
+        y <- return (read x :: Int) 
+        if y > 0
+        then 
+            print (factorial y)
+        else
+            runme
+
+3)
+factorial n = if n == 0 then 1 else n * factorial (n - 1)
+runme2 = 
+    (putStrLn "Insert a positive nomber") >> getLine >>=  (\x -> if read x > 0 then print (factorial (read x)) else runme2)
+
+		
+		
+

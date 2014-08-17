@@ -1,0 +1,87 @@
+Seven Languages in Seven Days.
+
+Team Varshini Ramaseshan and Bruno B. Carvalho
+
+1)
+
+	a) var myPoint = { x: 4, y: 3, distance: function() { return Math.sqrt( (this.x *this.x) + (this.y * this.y) ) } }
+
+	b) myPoint.distance();
+	
+	c) it says that x is not defined.
+	
+2) 
+
+	a) 
+	
+	function Point(x, y) {
+	this.x = x;
+	this.y = y;
+	this.distance = Math.sqrt( (this.x * this.x) + (this.y * this.y) )
+		
+	}
+	
+	b)
+	
+		var p = new point(3,4);
+		console.log(p.distance);
+		
+	c)
+		No, it does not work : "Cannot read property of 'distance'..."
+		
+	d)
+		Yes, it is possible, The value is replaced.
+		
+3)
+
+	a) 
+		Point.prototype.distance = function(){ return (Math.sqrt((this.x * this.x) + (this.y * this.y))) }
+	
+	b)
+	
+		You don't need to change the way you construct the object.
+		
+	c)
+	
+		If we create 2 points, a and b and just say that a.distance = something.
+		Then if we call a.distance it will work, but b.distance won't.
+		
+4)
+
+	a )
+	
+		function Point(x,y) { 
+			this.x=x; 
+			this.y=y; 
+		} 
+		Point.prototype.distance = function() { return (this.x*this.x) + (this.y * this.y)} 
+		
+		function LabeledPoint() { 
+			point.call(this); 
+		} 
+		var p1= new Point(3,4); 
+		var p2= new LabeledPoint(5,6); 
+		p1.distance(); 
+		p2.distance();
+		
+	b)
+	
+		It doesn't work, we try to call distance that is defined in Point and we get an error.
+	
+	c)
+	
+		function Point(x,y) { 
+			this.x=x; 
+			this.y=y; 
+			this.toString=function() { console.log("hello");}
+		} 
+		Point.prototype.distance = function() { return (this.x*this.x) + (this.y * this.y)} 
+		
+		function LabeledPoint() { 
+			point.call(this); 
+			this.toString=function() { console.log("hi");}
+		} 
+		var p1= new Point(3,4); 
+		var p2= new LabeledPoint(5,6); 
+		p1.distance(); -> returns Hello
+		p2.distance(); -> returns Hi

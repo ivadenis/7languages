@@ -1,0 +1,23 @@
+(range 1 1) ->
+	(1)
+	
+(range 1 0) ->
+	()
+	
+(range 1 '()) ->
+	error (expected real, got '())
+	
+(range 1 zero) ->
+	zero is undefined
+	
+(first lst) ->
+	123
+	
+(rest lst) -> 
+	'()
+
+(cons 0 lst) ->
+	'(0 123)  (This adds a constant to the list)
+
+(cons lst lst) ->
+	'((123) 123)

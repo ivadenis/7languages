@@ -1,0 +1,22 @@
+1)
+
+	1)
+	
+		random:uniform(100000000000000000000000000000000000000000000000000000000000).
+		
+		this returns a random uniformely distributed number between 1 and the value we give as a parameter.
+		
+	2)
+	
+		lists:seq(1,4)
+		
+		this returns a list containing 1,2,3,4.
+		
+	3)
+	
+		string:substr(integer_to_list(31415926535897932384626433832795028841971693993751058209749),1,1).
+		
+		this is a substring and it returns the first position, which is "3"
+		
+		
+	

@@ -1,0 +1,183 @@
+Bisma Janjua
+Quang Dung Ngo
+
+Step 1
+
+irb(main):001:0> filename = "City.csv"
+=> "City.csv"
+irb(main):002:0> data = File.new(filename)
+=> #<File:City.csv>
+irb(main):003:0> header = data.gets.chomp
+=> "name,country"
+irb(main):004:0> fields = header.split(",")
+=> ["name", "country"]
+irb(main):005:0> p fields
+["name", "country"]
+=> ["name", "country"]
+irb(main):006:0> data.each { |line|
+irb(main):007:1*   p line.chomp.split(",")
+irb(main):008:1> }
+["Yverdon", "Switzerland"]
+["San Jose", "United States"]
+["Bangalore", "India"]
+=> #<File:City.csv>
+irb(main):009:0> data.close
+=> nil
+irb(main):010:0>
+
+
+Without chomp
+
+filename = "City.csv"
+data = File.new(filename)
+header = data.gets
+fields = header.split(",")
+p fields
+data.each { |line| 
+  p line.split(",")
+}
+data.close
+
+irb(main):012:0* filename = "City.csv"
+=> "City.csv"
+irb(main):013:0> data = File.new(filename)
+=> #<File:City.csv>
+irb(main):014:0> header = data.gets
+=> "name,country\n"
+irb(main):015:0> fields = header.split(",")
+=> ["name", "country\n"]
+irb(main):016:0> p fields
+["name", "country\n"]
+=> ["name", "country\n"]
+irb(main):017:0> data.each { |line|
+irb(main):018:1*   p line.split(",")
+irb(main):019:1> }
+["Yverdon", "Switzerland\n"]
+["San Jose", "United States\n"]
+["Bangalore", "India\n"]
+=> #<File:City.csv>
+irb(main):020:0> data.close
+=> nil​
+
+chomp returns a new String with the given record separator removed from the end of string (if present). chomp also removes carriage return characters (that is it will remove \n, \r, and \r\n).
+
+----------------------------------------------------------------------
+
+Step 2
+
+1.
+
+class CSVRecord
+	attr_accessor :fields, :values
+	
+	def initialize(filename, i)
+		data = File.new(filename + ".csv")
+		header = data.gets.chomp
+		@fields = header.split(",")
+		count = 0
+		data.each { |line| 
+			count += 1
+			if count == i
+			then @values = line.chomp.split(",")
+			end
+		}
+		data.close
+	end
+	
+	def method_missing(name, *args)
+		p name # print out the method name
+		i = @fields.index(name.to_s)
+		if !i.nil?
+		then
+			@values[i]
+		else
+			super.method_missing(name, *args)			
+		end	
+	end
+end
+
+r = CSVRecord.new("City", 1)
+p r.name # Prints Yverdon
+
+
+2.
+irb(main):101:0> r.name = "Lausanne"
+:name=
+NoMethodError: undefined method `name=' for #<CSVRecord:0x2bb84d8>
+        from (irb):94:in `method_missing'
+        from (irb):101
+        from C:/Data/Programme/Ruby193/bin/irb:12:in `<main>'
+		
+The method name is "name=".
+In this case, we need to implement the method "=" to replace the value "Yverdon" of the field "name" with the new value "Lausanne".
+
+------------------------------------------------------------------------
+
+Step 3
+
+2.
+class Base	
+	def self.make_fields(fields) 
+		attr_accessor *fields # *fields turns the array into an argument list
+		define_method(:initialize) { |*args| 
+			fields.each_with_index { |f,i| 
+				instance_variable_set("@"+f, args[i]) 
+			}
+		}
+	end
+end
+
+def make_class(name, fields)	
+	klass = Class.new(Base)
+	Object.const_set(name, klass)
+	klass.make_fields(fields)
+end
+
+make_class("City", ["name", "country"]) # Makes City class
+c = City.new("Yverdon", "Switzerland")
+
+
+3.
+class Base	
+	def self.make_fields(fields) 
+		attr_accessor *fields # *fields turns the array into an argument list
+		define_method(:initialize) { |*args| 
+			fields.each_with_index { |f,i| 
+				instance_variable_set("@"+f, args[i]) 
+			}
+		}
+	end
+end
+
+def make_class(name, fields)	
+	klass = Class.new(Base)
+	Object.const_set(name, klass)
+	klass.make_fields(fields)
+end
+
+class CSVBase < Base
+	def self.inherited(klass)
+		# Read first row of CSV file and add fields to klass 
+		attr_accessor :fieldsCSV
+		
+		data = File.new("City.csv")
+		header = data.gets.chomp	
+		@fieldsCSV = header.split(",")
+		p @fieldsCSV[1]
+		p @fieldsCSV[2]		
+		klass.make_fields(fieldsCSV)
+		data.close
+	end
+end
+
+class City < CSVBase
+end
+
+c = City.new("Berlin", "Germany")
+
+
+------------------------------------------------------------------------
+
+Step 4
+
+
